@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- fontawsom -->
+    <link rel="stylesheet" href="asset/css/all.min.css">
+    <!-- bootstrap icon -->
+    <link rel="stylesheet" href="asset/css/bootstrap-icons.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <!-- css -->
+    <link rel="stylesheet" href="asset/css/style.css">
+</head>
+
+<body>
+    <header id="header"></header>
+    <main>
+        <div class="container">
+            <h1 class="text-center my-4">Cart</h1>
+            <table class="mx-auto w-75 table-responsive table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qnty</th>
+                        <th>Totel</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider" id="cart">
+                    <tr>
+                        <td><img class="rounded-circle object-fit-cover" src="https://i.pinimg.com/564x/bd/ab/c4/bdabc47e32d0770253c1899894e30648.jpg" height="80px" alt=""></td>
+                        <td>Speaker</td>
+                        <td>$99</td>
+                        <td><button class="btn py-1"><i class="bi bi-dash-lg"></i></button><span>1</span><button class="btn py-1"><i class="bi bi-plus-lg"></i></button></td>
+                        <td><button class="btn border-0"><i class="bi bi-trash3-fill text-danger"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+<!-- bootstrap js -->
+<script src="asset/js/bootstrap.bundle.min.js"></script>
+<!-- main js -->
+<script src="asset/js/main.js"></script>
+<script>
+    function cart_print(){
+        var carts= JSON.parse(localStorage.getItem('cart'))
+        var tr=""
+	carts.forEach((cart,i) => {
+		tr+=`<tr>
+		<td><img class="rounded-circle object-fit-cover" src="${cart.img}" height="80px" alt=""></td>
+		<td>${cart.title}</td>
+		<td>$${cart.price}</td>
+		<td><button class="btn py-1" onclick="remove(${i})"><i class="bi bi-dash-lg"></i></button><span>${cart.qnty}</span><button class="btn py-1" onclick=addPro(${i})><i class="bi bi-plus-lg"></i></button></td>
+		<td>$${cart.qnty*cart.price}</td>
+        <td><button class="btn border-0" onclick=delet(${i})><i class="bi bi-trash3-fill text-danger"></i></button></td>
+	</tr>`
+	});
+    document.getElementById('cart').innerHTML=tr
+    proCount()
+    }
+    cart_print()
+    function remove(id){
+        var carts= JSON.parse(localStorage.getItem('cart'))
+        if(carts[id].qnty==1){
+            carts.splice(id,1)
+        }else{
+            carts[id].qnty--
+        }
+        localStorage.setItem('cart',JSON.stringify(carts))
+        cart_print()
+    }
+    function addPro(id){
+        var carts= JSON.parse(localStorage.getItem('cart'))
+        carts[id].qnty++
+        localStorage.setItem('cart',JSON.stringify(carts))
+        cart_print()
+    }
+    function delet(id){
+        var carts= JSON.parse(localStorage.getItem('cart'))
+        carts.splice(id,1)
+        localStorage.setItem('cart',JSON.stringify(carts))
+        cart_print()
+    }
+</script>
+
+</html>
